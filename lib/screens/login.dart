@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleLogin() {
-    const String adminUsername = "admin1";
+    const String adminUsername = "Admin1";
     const String adminPassword = "2483";
 
     if (_usernameController.text == adminUsername &&
