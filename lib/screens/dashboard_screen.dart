@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/dashboard_widgets/age_chart.dart';
-import '../widgets/dashboard_widgets/caution_info_card.dart';
-import '../widgets/dashboard_widgets/ncds_chart.dart';
+import '../widgets/dashboard_widgets/combined_cards.dart'; // นำเข้าไฟล์ที่รวม CautionInfoCard และ NCDsChart
 import '../widgets/dashboard_widgets/patient_list.dart';
 import '../widgets/header.dart';
 import '../widgets/sidebar.dart';
@@ -28,16 +27,32 @@ class DashboardScreen extends StatelessWidget {
                       child: Header(),
                     ),
                   ),
-                  // ✅ ใช้ SliverGrid แทน GridView
+                  // ✅ ใช้ SliverToBoxAdapter สำหรับ Row ที่มี CautionInfoCard และ NCDsChart
+                  SliverPadding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    sliver: SliverToBoxAdapter(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2, // กำหนดสัดส่วนความกว้างของ CautionInfoCard
+                            child: CautionInfoCard(),
+                          ),
+                          SizedBox(width: 10), // เพิ่มระยะห่างระหว่าง Card
+                          Expanded(
+                            flex: 1, // กำหนดสัดส่วนความกว้างของ NCDsChart
+                            child: NCDsChart(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // ✅ ใช้ SliverGrid สำหรับ PatientList และ AgeChart
                   SliverPadding(
                     padding: EdgeInsets.only(bottom: 16),
                     sliver: SliverGrid(
                       delegate: SliverChildListDelegate([
-                        CautionInfoCard(),
-                        NCDsChart(),
                         PatientList(),
                         AgeChart(),
-                       
                       ]),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
