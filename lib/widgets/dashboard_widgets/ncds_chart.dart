@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class NCDsChart extends StatelessWidget {
   const NCDsChart({super.key});
@@ -20,7 +19,7 @@ class NCDsChart extends StatelessWidget {
           return Center(child: Text("No data available"));
         }
 
-        // 📌 ✅ แก้ให้รองรับ `String` แทน `List`
+        // นับจำนวนคนที่เป็นโรค
         Map<String, int> diseaseCount = {
           "Cancer": 0,
           "Hypertension": 0,
@@ -32,75 +31,112 @@ class NCDsChart extends StatelessWidget {
         for (var doc in snapshot.data!.docs) {
           var personalData = doc.data() as Map<String, dynamic>;
 
-          // ✅ ตรวจสอบว่า `diseases` เป็น String
           if (personalData.containsKey("diseases") && personalData["diseases"] is String) {
             String disease = personalData["diseases"];
-
-            // ✅ อัปเดตจำนวนโรค
             if (diseaseCount.containsKey(disease)) {
               diseaseCount[disease] = diseaseCount[disease]! + 1;
             }
           }
         }
 
-        List<String> diseaseNames = diseaseCount.keys.toList();
-        List<Color> barColors = [Colors.blue, Colors.orange, Colors.green, Colors.red, Colors.purple];
+        // เรียงลำดับจากมากไปน้อย
+        var sortedDiseases = diseaseCount.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value));
 
-        return Card(
-          color: Colors.white, 
-          elevation: 3,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "NCDs Disease Tracking",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold , color: const Color.fromARGB(255, 8, 64, 110)),
+        // คำนวณจำนวนผู้ป่วยรวม
+        int totalPatients = sortedDiseases.fold(0, (sum, entry) => sum + entry.value);
+
+        return Scaffold(
+          backgroundColor: Colors.grey[100],
+          body: Center( // จัดวางกล่องให้อยู่กึ่งกลาง
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Container(
+                width: 300, // กำหนดความกว้างของกล่องให้สั้นลง
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 250, // ขนาดของกราฟ
-                  child: BarChart(
-                    BarChartData(
-                      barGroups: diseaseCount.entries.map((entry) {
-                        int index = diseaseNames.indexOf(entry.key);
-                        return BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: entry.value.toDouble(),
-                              color: barColors[index % barColors.length],
-                              width: 16,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: true, reservedSize: 40),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              int index = value.toInt();
-                              return index < diseaseNames.length
-                                  ? Text(diseaseNames[index], style: TextStyle(fontSize: 12))
-                                  : Container();
-                            },
-                          ),
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // หัวข้อ "NCDs Disease Tracking"
+                    Text(
+                      "Disease Tracking",
+                      style: TextStyle(
+                        fontFamily: 'Nunito', // กำหนดฟอนต์r
+                        fontSize: 25, // ปรับขนาดตัวอักษรให้เล็กลง
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue[900],
                       ),
                     ),
-                  ),
+                    
+                    Text(
+                      "จำนวนผู้ป่วยทั้งหมด: $totalPatients คน",
+                      style: TextStyle(
+                        fontSize: 16, // ปรับขนาดตัวอักษรให้เล็กลง
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                    SizedBox(height: 20), // ลดระยะห่าง
+                    // รายละเอียดโรค
+                    ...sortedDiseases.map((entry) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 6.0), // ลดระยะห่าง
+                        child: Row(
+                          children: [
+                            // แสดงไอคอนแทนสี
+                            _getIconForDisease(entry.key),
+                            SizedBox(width: 8), // ลดระยะห่าง
+                            Text(
+                              entry.key,
+                              style: TextStyle(
+                                fontSize: 20, // ปรับขนาดตัวอักษรให้เล็กลง
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue[900],
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '${entry.value} คน',
+                              style: TextStyle(
+                                fontSize: 16, // ปรับขนาดตัวอักษรให้เล็กลง
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  // ฟังก์ชันคืนค่า Icon ตามโรค
+  Icon _getIconForDisease(String disease) {
+    switch (disease) {
+      case "Cancer":
+        return Icon(Icons.coronavirus_rounded, color: Colors.red[400]);
+      case "Hypertension":
+        return Icon(Icons.monitor_heart, color: Colors.blue[400]);
+      case "Diabetes":
+        return Icon(Icons.bloodtype, color: Colors.green[400]);
+      case "Obesity":
+        return Icon(Icons.fastfood, color: Colors.orange[400]);
+      case "CVD":
+        return Icon(Icons.favorite, color: Colors.purple[400]);
+      default:
+        return Icon(Icons.medical_services, color: Colors.grey[400]);
+    }
   }
 }
