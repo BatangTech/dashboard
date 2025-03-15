@@ -64,8 +64,7 @@ flutter:
   uses-material-design: true
   assets:
   - assets/images/
-  - assets/fonts/Josefin_Sans
-  - assets/fonts/Nunito
+  
   
 
   # To add assets to your application, add an assets section, like this:
@@ -87,21 +86,22 @@ flutter:
   fonts:
     - family: Josefin_Sans
       fonts:
-        - asset: assets/fonts/JosefinSans-Regular.ttf
-        - asset: assets/fonts/JosefinSans-Bold.ttf
+        - asset: assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf
+        - asset: assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/JosefinSans-Italic.ttf
+        - asset: assets/fonts/Josefin_Sans/static/JosefinSans-Italic.ttf
           style: italic
-        - asset: assets/fonts/JosefinSans-Light.ttf
+        - asset: assets/fonts/Josefin_Sans/static/JosefinSans-Light.ttf
           weight: 300
+          
     - family: Nunito
       fonts:
-        - asset: assets/fonts/Nunito-Regular.ttf
-        - asset: assets/fonts/Nunito-Bold.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Regular.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Nunito-Italic.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Italic.ttf
           style: italic
-        - asset: assets/fonts/Nunito-Light.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Light.ttf
           weight: 300
     
   #
