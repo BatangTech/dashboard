@@ -1,8 +1,10 @@
+// combind card in caution and NCDs togather
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// start thr caution card 
 class CautionInfoCard extends StatelessWidget {
   const CautionInfoCard({super.key});
 
@@ -232,6 +234,8 @@ class CautionInfoCard extends StatelessWidget {
     );
   }
 }
+
+// start the NCDs card
 class NCDsChart extends StatelessWidget {
   const NCDsChart({super.key});
 
