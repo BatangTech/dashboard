@@ -38,7 +38,7 @@ class CautionInfoCard extends StatelessWidget {
             Text(
               "แนวโน้มสถานะสุขภาพ",
               style: TextStyle(
-                fontFamily: 'Maitree', // กำหนดฟอนต์
+                fontFamily: 'Bai_Jamjuree', // กำหนดฟอนต์
                 fontSize: 16, // ปรับขนาดตัวอักษรให้เล็กลง
                 color: Colors.grey[700],
               ),
