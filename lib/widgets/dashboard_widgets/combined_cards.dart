@@ -38,6 +38,7 @@ class CautionInfoCard extends StatelessWidget {
             Text(
               "แนวโน้มสถานะสุขภาพ",
               style: TextStyle(
+                fontFamily: 'Maitree', // กำหนดฟอนต์
                 fontSize: 16, // ปรับขนาดตัวอักษรให้เล็กลง
                 color: Colors.grey[700],
               ),
@@ -315,6 +316,7 @@ class NCDsChart extends StatelessWidget {
                 Text(
                   "จำนวนผู้ป่วยทั้งหมด: $totalPatients คน",
                   style: TextStyle(
+                    fontFamily: 'Bai_Jamjuree', // กำหนดฟอนต์
                     fontSize: 16, // ปรับขนาดตัวอักษรให้เล็กลง
                     color: Colors.grey[700],
                   ),
