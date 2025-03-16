@@ -109,9 +109,15 @@ flutter:
         - asset: assets/fonts/Maitree/Maitree-Regular.ttf
         - asset: assets/fonts/Maitree/Maitree-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Maitree/Maitree-Italic.ttf
-          style: italic
         - asset: assets/fonts/Maitree/Maitree-Light.ttf
+          weight: 300
+
+    - family: Bai_Jamjuree
+      fonts:
+        - asset: assets/fonts/Bai_Jamjuree/BaiJamjuree-Regular.ttf
+        - asset: assets/fonts/Bai_Jamjuree/BaiJamjuree-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Bai_Jamjuree/BaiJamjuree-Light.ttf
           weight: 300
     
   #
