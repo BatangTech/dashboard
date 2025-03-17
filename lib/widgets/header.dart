@@ -25,11 +25,12 @@ class Header extends StatelessWidget {
             children: [
               TextSpan(
                 text: getGreeting(),
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold , color: Color.fromARGB(255, 8, 64, 110)),
+                style: TextStyle(fontFamily: 'Nunito',fontSize: 50, fontWeight: FontWeight.bold , color: Colors.blue[900],),
+                
               ),
               TextSpan(
                 text: "\nAdmin",
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 8, 64, 110)),
+                style: TextStyle(fontFamily: 'Nunito',fontSize: 40, fontWeight: FontWeight.bold , color: Colors.blue[900],),
               ),
             ],
           ),
